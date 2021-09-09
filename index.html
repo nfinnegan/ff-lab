@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>LaunchDarkly Tutorial</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+<script crossorigin="anonymous" src="https://unpkg.com/launchdarkly-js-client-sdk@2"></script>
+
+    </head>
+    <body>
+   
+
+    <script type="text/javascript" src="config.js"></script>
+        <script>
+            let token = config.SDK_KEY
+            var user = {
+              firstName: 'Bob',
+              lastName: 'Loblaw',
+              key: 'UNIQUE IDENTIFIER',
+              custom: {
+                groups: 'beta_testers'
+              }
+            };
+          
+            var div = document.createElement('div');
+            document.body.appendChild(div);
+          
+            div.appendChild(document.createTextNode('Initializing...'));
+          
+            var ldclient = LDClient.initialize(token, user);
+          
+            function render() {
+              var shouldShow = ldclient.variation('natalie-flag-2', false);
+              var label = (shouldShow ? 'George can see' : 'George cannot see') + ' the feature for ' + user.custom.groups;
+              div.replaceChild(document.createTextNode(label), div.firstChild);
+            }
+          
+            ldclient.on('ready', render);
+            ldclient.on('change', render);
+        </script>
+          
+    </body>
+</html>
